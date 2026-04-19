@@ -3,57 +3,194 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>API de Alunos e Cursos</title>
+    <title>API de Alunos e Cursos — Test UI</title>
     <style>
-      body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#f6f9fc;color:#0b1b2b;margin:0;padding:0}
-      .wrap{max-width:900px;margin:40px auto;padding:24px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(11,27,43,0.08)}
-      h1{margin:0 0 8px;font-size:28px}
+      :root{--bg:#f6f9fc;--card:#fff;--muted:#64748b;--accent:#0369a1}
+      body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#0b1b2b;margin:0;padding:20px}
+      .wrap{max-width:1100px;margin:12px auto;padding:20px;background:var(--card);border-radius:10px;box-shadow:0 10px 30px rgba(11,27,43,0.06)}
+      h1{margin:0 0 6px;font-size:26px}
       p.lead{margin:0 0 18px;color:#334155}
-      .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-      .card{background:#f8fafc;border:1px solid #e6eef6;padding:12px;border-radius:6px}
-      code{background:#0f1724;color:#fff;padding:2px 6px;border-radius:4px;font-size:90%}
+      .cols{display:flex;gap:14px;align-items:flex-start}
+      .col{flex:1}
+      .card{background:#f8fafc;border:1px solid #e6eef6;padding:14px;border-radius:8px}
+      label{display:block;margin-top:8px;font-weight:600}
+      input,select,button{margin-top:6px;padding:8px;border-radius:6px;border:1px solid #d1e3f1;width:100%;box-sizing:border-box}
+      button.primary{background:var(--accent);color:#fff;border:none;cursor:pointer}
       pre{background:#0b1620;color:#fff;padding:12px;border-radius:6px;overflow:auto}
-      a.link{color:#0369a1;text-decoration:none}
-      footer{margin-top:18px;color:#64748b;font-size:13px}
+      .small{font-size:13px;color:var(--muted)}
+      .flex{display:flex;gap:8px}
+      .list{margin-top:8px}
+      .item{padding:8px;border-bottom:1px dashed #e6eef6}
+      .actions button{margin-right:6px}
     </style>
   </head>
   <body>
     <div class="wrap">
-      <h1>API de Alunos e Cursos</h1>
-      <p class="lead">Bem-vindo! Esta é uma API simples para gerenciar alunos, cursos e matrículas.</p>
+      <h1>API de Alunos e Cursos — Test UI</h1>
+      <p class="lead">Use esta interface para testar rapidamente os endpoints (GET/POST/PATCH/DELETE).</p>
 
-      <div class="grid">
-        <div class="card">
-          <h3>Endpoints principais</h3>
-          <ul>
-            <li><code>GET /alunos</code> — listar alunos</li>
-            <li><code>POST /alunos</code> — criar aluno</li>
-            <li><code>GET /cursos</code> — listar cursos</li>
-            <li><code>POST /cursos</code> — criar curso</li>
-            <li><code>POST /matriculas</code> — criar matrícula</li>
-          </ul>
+      <div class="cols">
+        <div class="col">
+          <div class="card">
+            <h3>Criar Aluno</h3>
+            <label>Nome <input id="aluno-nome" placeholder="Nome" /></label>
+            <label>Email <input id="aluno-email" placeholder="email@ex.com" /></label>
+            <button class="primary" id="btn-criar-aluno">Criar Aluno</button>
+            <div class="small">Resposta:</div>
+            <pre id="resp-aluno">vazio</pre>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3>Criar Curso</h3>
+            <label>Título <input id="curso-titulo" placeholder="Matemática" /></label>
+            <button class="primary" id="btn-criar-curso">Criar Curso</button>
+            <div class="small">Resposta:</div>
+            <pre id="resp-curso">vazio</pre>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3>Matricular Aluno</h3>
+            <label>Aluno <select id="select-alunos"><option value="">-- carregar alunos --</option></select></label>
+            <label>Curso <select id="select-cursos"><option value="">-- carregar cursos --</option></select></label>
+            <button class="primary" id="btn-matricular">Matricular</button>
+            <div class="small">Resposta:</div>
+            <pre id="resp-matricula">vazio</pre>
+          </div>
         </div>
-        <div class="card">
-          <h3>Regras</h3>
-          <ul>
-            <li>Matrícula única por aluno+curso</li>
-            <li>Máx. 5 matrículas ativas por aluno</li>
-            <li>Validações de campos obrigatórios</li>
-          </ul>
+
+        <div class="col">
+          <div class="card">
+            <h3>Listagens</h3>
+            <div class="flex">
+              <button id="btn-listar-alunos">Listar Alunos</button>
+              <button id="btn-listar-cursos">Listar Cursos</button>
+            </div>
+            <div class="small">Resultados:</div>
+            <pre id="lista-result">vazio</pre>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3>Matrículas por Aluno / Curso</h3>
+            <label>Aluno ID <input id="aluno-id-consulta" placeholder="ex: 1" /></label>
+            <button id="btn-aluno-cursos">Ver Cursos do Aluno</button>
+            <label>Curso ID <input id="curso-id-consulta" placeholder="ex: 1" /></label>
+            <button id="btn-curso-alunos">Ver Alunos do Curso</button>
+            <div class="small">Resultados:</div>
+            <pre id="lista-matriculas">vazio</pre>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <h3>Alterar status de Matrícula</h3>
+            <label>Matrícula ID <input id="matricula-id-act" placeholder="ex: 1" /></label>
+            <div class="flex actions" style="margin-top:8px">
+              <button id="btn-cancelar">Cancelar</button>
+              <button id="btn-concluir">Concluir</button>
+            </div>
+            <div class="small">Resposta:</div>
+            <pre id="resp-act">vazio</pre>
+          </div>
         </div>
       </div>
 
-      <h3>Exemplos rápidos (curl)</h3>
-      <pre>curl -X POST http://{host}/alunos -H 'Content-Type: application/json' -d '{"nome":"Ana","email":"ana@ex.com"}'
-curl -X POST http://{host}/cursos -H 'Content-Type: application/json' -d '{"titulo":"Matematica"}'
-curl -X POST http://{host}/matriculas -H 'Content-Type: application/json' -d '{"aluno_id":1,"curso_id":1}'</pre>
-
-      <h3>Dicas</h3>
-      <p>Se você implantou na Render, substitua <code>{host}</code> pelo domínio que o Render forneceu (ex.: <code>meu-app.onrender.com</code>).</p>
-
-      <footer>
-        Página gerada automaticamente — para documentação completa veja o <a class="link" href="/README.md">README</a> no repositório.
-      </footer>
+      <footer style="margin-top:16px;color:var(--muted);font-size:13px">Dica: clique em "Listar Alunos" e "Listar Cursos" para preencher os selects antes de matricular.</footer>
     </div>
+
+    <script>
+      const base = '';
+
+      async function show(el, data){
+        document.getElementById(el).textContent = JSON.stringify(data, null, 2);
+      }
+
+      async function criarAluno(){
+        const nome = document.getElementById('aluno-nome').value;
+        const email = document.getElementById('aluno-email').value;
+        try{
+          const res = await fetch(base + '/alunos', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({nome, email})});
+          const data = await res.json();
+          show('resp-aluno', data);
+          listarAlunos();
+        }catch(e){ show('resp-aluno', {error: e.message}); }
+      }
+
+      async function criarCurso(){
+        const titulo = document.getElementById('curso-titulo').value;
+        try{
+          const res = await fetch(base + '/cursos', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({titulo})});
+          const data = await res.json();
+          show('resp-curso', data);
+          listarCursos();
+        }catch(e){ show('resp-curso', {error: e.message}); }
+      }
+
+      async function matricular(){
+        const aluno_id = Number(document.getElementById('select-alunos').value);
+        const curso_id = Number(document.getElementById('select-cursos').value);
+        try{
+          const res = await fetch(base + '/matriculas', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({aluno_id, curso_id})});
+          const data = await res.json();
+          show('resp-matricula', data);
+        }catch(e){ show('resp-matricula', {error: e.message}); }
+      }
+
+      async function listarAlunos(){
+        const res = await fetch(base + '/alunos');
+        const data = await res.json();
+        show('lista-result', data);
+        const sel = document.getElementById('select-alunos');
+        sel.innerHTML = '<option value="">-- selecione --</option>';
+        data.forEach(a => { const o = document.createElement('option'); o.value = a.id; o.text = `${a.id} - ${a.nome}`; sel.appendChild(o); });
+      }
+
+      async function listarCursos(){
+        const res = await fetch(base + '/cursos');
+        const data = await res.json();
+        show('lista-result', data);
+        const sel = document.getElementById('select-cursos');
+        sel.innerHTML = '<option value="">-- selecione --</option>';
+        data.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.text = `${c.id} - ${c.titulo}`; sel.appendChild(o); });
+      }
+
+      async function verCursosDoAluno(){
+        const id = document.getElementById('aluno-id-consulta').value;
+        if(!id) return show('lista-matriculas', {error: 'Informe aluno id'});
+        const res = await fetch(base + `/alunos/${id}/cursos`);
+        const data = await res.json(); show('lista-matriculas', data);
+      }
+
+      async function verAlunosDoCurso(){
+        const id = document.getElementById('curso-id-consulta').value;
+        if(!id) return show('lista-matriculas', {error: 'Informe curso id'});
+        const res = await fetch(base + `/cursos/${id}/alunos`);
+        const data = await res.json(); show('lista-matriculas', data);
+      }
+
+      async function cancelarMatricula(){
+        const id = document.getElementById('matricula-id-act').value;
+        if(!id) return show('resp-act', {error: 'Informe matricula id'});
+        const res = await fetch(base + `/matriculas/${id}/cancelar`, {method:'PATCH'});
+        const data = await res.json(); show('resp-act', data);
+      }
+
+      async function concluirMatricula(){
+        const id = document.getElementById('matricula-id-act').value;
+        if(!id) return show('resp-act', {error: 'Informe matricula id'});
+        const res = await fetch(base + `/matriculas/${id}/concluir`, {method:'PATCH'});
+        const data = await res.json(); show('resp-act', data);
+      }
+
+      document.getElementById('btn-criar-aluno').addEventListener('click', criarAluno);
+      document.getElementById('btn-criar-curso').addEventListener('click', criarCurso);
+      document.getElementById('btn-matricular').addEventListener('click', matricular);
+      document.getElementById('btn-listar-alunos').addEventListener('click', listarAlunos);
+      document.getElementById('btn-listar-cursos').addEventListener('click', listarCursos);
+      document.getElementById('btn-aluno-cursos').addEventListener('click', verCursosDoAluno);
+      document.getElementById('btn-curso-alunos').addEventListener('click', verAlunosDoCurso);
+      document.getElementById('btn-cancelar').addEventListener('click', cancelarMatricula);
+      document.getElementById('btn-concluir').addEventListener('click', concluirMatricula);
+
+      // Autoload lists on page load
+      window.addEventListener('load', () => { listarAlunos(); listarCursos(); });
+    </script>
   </body>
 </html>
