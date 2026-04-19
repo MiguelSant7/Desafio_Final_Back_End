@@ -3,8 +3,8 @@ const router = express.Router();
 const db = require('../db/database');
 const { errorJson } = require('../utils/response');
 
-// Criar matricula
-router.post('/', (req, res) => {
+// Criar matricula (POST /matriculas)
+router.post('/matriculas', (req, res) => {
   const { aluno_id, curso_id } = req.body || {};
   if (!aluno_id || !curso_id) return res.status(400).json(errorJson('aluno_id e curso_id são obrigatórios', 400));
 
@@ -42,8 +42,8 @@ router.post('/', (req, res) => {
   });
 });
 
-// Cancelar matrícula
-router.patch('/:id/cancelar', (req, res) => {
+// Cancelar matrícula (PATCH /matriculas/:id/cancelar)
+router.patch('/matriculas/:id/cancelar', (req, res) => {
   const id = req.params.id;
   db.run("UPDATE matriculas SET status = 'cancelada' WHERE id = ?", [id], function (err) {
     if (err) return res.status(500).json(errorJson('Erro ao cancelar matricula', 500));
@@ -52,8 +52,8 @@ router.patch('/:id/cancelar', (req, res) => {
   });
 });
 
-// Concluir matrícula
-router.patch('/:id/concluir', (req, res) => {
+// Concluir matrícula (PATCH /matriculas/:id/concluir)
+router.patch('/matriculas/:id/concluir', (req, res) => {
   const id = req.params.id;
   db.run("UPDATE matriculas SET status = 'concluida' WHERE id = ?", [id], function (err) {
     if (err) return res.status(500).json(errorJson('Erro ao concluir matricula', 500));
