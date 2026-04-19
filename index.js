@@ -11,6 +11,9 @@ const matriculasRouter = require('./controllers/matriculas');
 const app = express();
 app.use(express.json());
 
+// Servir arquivos estáticos (pasta public) para uma landing page amigável
+app.use(express.static('public'));
+
 // Porta padrão (usamos process.env.PORT para compatibilidade com PaaS)
 const PORT = process.env.PORT || 3000;
 
@@ -23,7 +26,8 @@ app.use('/', matriculasRouter);
 
 // Rota root simples
 app.get('/', (req, res) => {
-  res.json({ message: 'API de Alunos e Cursos. Veja /alunos, /cursos, /matriculas' });
+  // Serve o HTML mais amigável na raiz (se existir em public/index.html)
+  res.sendFile('index.html', { root: 'public' });
 });
 
 // Fallback 404

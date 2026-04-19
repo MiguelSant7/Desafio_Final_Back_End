@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>API de Alunos e Cursos</title>
+    <style>
+      body{font-family:Inter,Segoe UI,Arial,sans-serif;background:#f6f9fc;color:#0b1b2b;margin:0;padding:0}
+      .wrap{max-width:900px;margin:40px auto;padding:24px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(11,27,43,0.08)}
+      h1{margin:0 0 8px;font-size:28px}
+      p.lead{margin:0 0 18px;color:#334155}
+      .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      .card{background:#f8fafc;border:1px solid #e6eef6;padding:12px;border-radius:6px}
+      code{background:#0f1724;color:#fff;padding:2px 6px;border-radius:4px;font-size:90%}
+      pre{background:#0b1620;color:#fff;padding:12px;border-radius:6px;overflow:auto}
+      a.link{color:#0369a1;text-decoration:none}
+      footer{margin-top:18px;color:#64748b;font-size:13px}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>API de Alunos e Cursos</h1>
+      <p class="lead">Bem-vindo! Esta é uma API simples para gerenciar alunos, cursos e matrículas.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Endpoints principais</h3>
+          <ul>
+            <li><code>GET /alunos</code> — listar alunos</li>
+            <li><code>POST /alunos</code> — criar aluno</li>
+            <li><code>GET /cursos</code> — listar cursos</li>
+            <li><code>POST /cursos</code> — criar curso</li>
+            <li><code>POST /matriculas</code> — criar matrícula</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Regras</h3>
+          <ul>
+            <li>Matrícula única por aluno+curso</li>
+            <li>Máx. 5 matrículas ativas por aluno</li>
+            <li>Validações de campos obrigatórios</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Exemplos rápidos (curl)</h3>
+      <pre>curl -X POST http://{host}/alunos -H 'Content-Type: application/json' -d '{"nome":"Ana","email":"ana@ex.com"}'
+curl -X POST http://{host}/cursos -H 'Content-Type: application/json' -d '{"titulo":"Matematica"}'
+curl -X POST http://{host}/matriculas -H 'Content-Type: application/json' -d '{"aluno_id":1,"curso_id":1}'</pre>
+
+      <h3>Dicas</h3>
+      <p>Se você implantou na Render, substitua <code>{host}</code> pelo domínio que o Render forneceu (ex.: <code>meu-app.onrender.com</code>).</p>
+
+      <footer>
+        Página gerada automaticamente — para documentação completa veja o <a class="link" href="/README.md">README</a> no repositório.
+      </footer>
+    </div>
+  </body>
+</html>
