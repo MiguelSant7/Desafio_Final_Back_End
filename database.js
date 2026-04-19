@@ -5,7 +5,7 @@ const path = require('path');
 // Caminho do arquivo do banco (ficará em database.sqlite na pasta do projeto)
 const DB_PATH = path.resolve(__dirname, 'database.sqlite');
 
-// Abre (ou cria) o arquivo do banco SQLite
+// Abre (ou cria) o arquivo do banco SQLite 
 // Nota: aqui não usamos promessas pra manter o código simples, só callback
 const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
